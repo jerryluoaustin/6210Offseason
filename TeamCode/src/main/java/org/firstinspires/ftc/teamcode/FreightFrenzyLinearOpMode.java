@@ -143,7 +143,7 @@ public class FreightFrenzyLinearOpMode extends LinearOpMode {
         telemetry.update();
     }
 
-    /** PURPOSE: Initializes OpenCV variables
+    /** PURPOSE: Initializes org.firstinspires.ftc.teamcode.OpenCV variables
      *  Note: In here, you can set the camera direction and orientation
      */
     public void initOpenCV(){

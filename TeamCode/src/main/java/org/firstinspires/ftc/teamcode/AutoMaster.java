@@ -23,5 +23,6 @@ import java.util.HashMap;
 public abstract class AutoMaster extends LinearOpMode {
 
     public Bitmap bitmap = new Bitmap(this);
+    public OpenCV openCV = new OpenCV(this);
 
 }
