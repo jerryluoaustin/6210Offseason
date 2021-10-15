@@ -1,17 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.vuforia.CameraDevice;
-import com.vuforia.Image;
 import com.vuforia.PIXEL_FORMAT;
 import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 import static android.graphics.Color.blue;
 import static android.graphics.Color.green;
@@ -19,9 +13,9 @@ import static android.graphics.Color.red;
 
 public class Bitmap {
 
-    private AutoMaster auto;
+    private AutoBase auto;
 
-    public Bitmap(AutoMaster auto){
+    public Bitmap(AutoBase auto){
         this.auto = auto;
         //Create vuforia object
         VuforiaLocalizer vuforia = null;
@@ -39,5 +33,9 @@ public class Bitmap {
 
         Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true); //enables RGB565 format for the image
         vuforia.setFrameQueueCapacity(1); //tells VuforiaLocalizer to only store one frame at a time
+    }
+
+    public void Test() {
+        // do stuff...
     }
 }
