@@ -5,7 +5,6 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.AutoBase;
-import org.firstinspires.ftc.teamcode.VuforiaBM;
 
 @Autonomous(name = "Test", group = "testTest")
 public class Test extends AutoBase {
