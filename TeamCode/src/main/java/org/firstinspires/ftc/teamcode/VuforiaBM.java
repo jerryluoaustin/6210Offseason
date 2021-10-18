@@ -65,6 +65,33 @@ public class VuforiaBM {
         bm.copyPixelsFromBuffer(rgb.getPixels());
 
         return bm;
+
+    }
+
+    //returns 1, 2, or 3 for the three possible capstone locations
+    public int colorReturn() throws InterruptedException{
+
+        Bitmap bm = this.getBitmap();
+
+        int p1 = blue(bm.getPixel(640, 360));
+        int p2 = blue(bm.getPixel(0, 450));
+
+        //threshold values for capstone color
+        if (p1 < 50) {
+
+            return 1;
+
+        }
+
+        else if (p2 < 50) {
+
+            return 2;
+        }
+
+        else {
+
+            return 3;
+        }
     }
 
     // Check 3 locations for capstone
