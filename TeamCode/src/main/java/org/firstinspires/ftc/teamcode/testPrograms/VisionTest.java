@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.AutoMaster;
+import org.firstinspires.ftc.teamcode.AutoBase;
 import org.firstinspires.ftc.teamcode.FreightFrenzyLinearOpMode;
 import org.firstinspires.ftc.teamcode.OpenCV;
 import org.firstinspires.ftc.teamcode.VuforiaBM;
