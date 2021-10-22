@@ -19,6 +19,8 @@ public class Test extends AutoBase {
 
         waitForStart();
 
+        bitmap.capPositionReturn();
+
         Trajectory trajectoryForward = autoDrive.trajectoryBuilder(new Pose2d())
                 .forward(DISTANCE)
                 .build();

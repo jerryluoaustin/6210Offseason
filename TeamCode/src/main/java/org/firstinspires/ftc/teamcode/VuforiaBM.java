@@ -69,7 +69,7 @@ public class VuforiaBM {
     }
 
     //returns 1, 2, or 3 for the three possible capstone locations
-    public int colorReturn() throws InterruptedException{
+    public int capPositionReturn() throws InterruptedException{
 
         Bitmap bm = this.getBitmap();
 
