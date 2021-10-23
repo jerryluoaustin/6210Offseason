@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="TeleOpMode", group = "TeleOp")
 public class TeleOpMode extends OpMode
@@ -18,6 +20,9 @@ public class TeleOpMode extends OpMode
     DcMotor LL;
     DcMotor RL;
 
+    CRServo RC;
+    CRServo LC;
+
     public void init()
     {
         FR = hardwareMap.dcMotor.get("rightFront");
@@ -27,6 +32,9 @@ public class TeleOpMode extends OpMode
 
         LL = hardwareMap.dcMotor.get("leftLift");
         RL = hardwareMap.dcMotor.get("rightLift");
+
+        RC = hardwareMap.crservo.get("rightCarousel");
+        LC = hardwareMap.crservo.get("leftCarousel");
 
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -71,6 +79,15 @@ public class TeleOpMode extends OpMode
         RL.setPower(0);
     }
 
+    //Stop carousel
+    public void carousel()
+    {
+        RC.setPower(0);
+        LC.setPower(0);
+    }
+
+
+
     @Override
     public void loop()
     {
@@ -79,7 +96,6 @@ public class TeleOpMode extends OpMode
         double rightX = 0;
         double[] motorPower = new double[4];
 
-        double rightY = 0;
 
         if (Math.abs(gamepad1.left_stick_y) > 0.1)
         {
@@ -117,6 +133,19 @@ public class TeleOpMode extends OpMode
         {
             liftStop();
         }
+
+        //Carousel
+        if ((gamepad1.right_trigger) > 0.1)
+        {
+            RC.setPower(gamepad1.right_trigger);
+            LC.setPower(-gamepad1.right_trigger);
+        }
+        else
+        {
+            RC.setPower(0);
+            LC.setPower(0);
+        }
+
 
     }
 
