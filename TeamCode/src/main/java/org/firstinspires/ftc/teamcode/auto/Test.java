@@ -13,7 +13,7 @@ public class Test extends AutoBase {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
+/*
         // Use the instances created in AutoBase
         openCV.Test();
 
@@ -37,6 +37,6 @@ public class Test extends AutoBase {
         }
 
         telemetry.addData("Test done",": complete");
-        telemetry.update();
+        telemetry.update();*/
     }
 }

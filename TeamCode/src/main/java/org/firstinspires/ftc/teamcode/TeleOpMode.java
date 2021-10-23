@@ -112,9 +112,9 @@ public class TeleOpMode extends OpMode
             rightX = gamepad1.right_stick_x;
         }
 
-        motorPower[0] = leftY - leftX + rightX;
+        motorPower[0] = leftY + leftX + rightX;
         motorPower[1] = leftY - leftX - rightX;
-        motorPower[2] = leftY + leftX + rightX;
+        motorPower[2] = leftY - leftX + rightX;
         motorPower[3] = leftY + leftX - rightX;
 
         FR.setPower(motorPower[0]);

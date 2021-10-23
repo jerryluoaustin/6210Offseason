@@ -7,5 +7,5 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public abstract class AutoBase extends LinearOpMode {
     public VuforiaBM bitmap = new VuforiaBM(this);
     public OpenCV openCV = new OpenCV(this);
-    public AutoDrive autoDrive = new AutoDrive(this, hardwareMap);
+    //public AutoDrive autoDrive = new AutoDrive(this, hardwareMap);
 }
