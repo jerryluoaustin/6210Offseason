@@ -20,8 +20,15 @@ public class TeleOpMode extends OpMode
     DcMotor LL;
     DcMotor RL;
 
+    // right carousel and left carousel servo declaration
     CRServo RC;
     CRServo LC;
+
+    // left and right gate servos
+    Servo RG;
+    Servo LG;
+
+
 
     public void init()
     {
@@ -36,12 +43,17 @@ public class TeleOpMode extends OpMode
         RC = hardwareMap.crservo.get("rightCarousel");
         LC = hardwareMap.crservo.get("leftCarousel");
 
+        // servo for left and right gate
+        RG = hardwareMap.servo.get("rightGate");
+        LG = hardwareMap.servo.get("leftGate");
+
+
+
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -82,10 +94,23 @@ public class TeleOpMode extends OpMode
     //Stop carousel
     public void carousel()
     {
-        RC.setPower(0);
         LC.setPower(0);
+        RC.setPower(0);
     }
+    public void closeGate()
+    {
+        RG.setPosition(0);
+        LG.setPosition(0);
+    }
+    public void openGate()
+    {
+        RG.setPosition(1);
+        LG.setPosition(1);
+    }
+    //variable checking if the gate is closed.
 
+
+    boolean gateClosed = true;
 
 
     @Override
@@ -145,6 +170,21 @@ public class TeleOpMode extends OpMode
             RC.setPower(0);
             LC.setPower(0);
         }
+
+
+
+        if (gamepad2.a && gateClosed == true)
+        {
+            openGate();
+            gateClosed = false;
+
+        }
+        else if (gamepad2.a && gateClosed == false)
+        {
+            closeGate();
+            gateClosed = true;
+        }
+
 
 
     }
