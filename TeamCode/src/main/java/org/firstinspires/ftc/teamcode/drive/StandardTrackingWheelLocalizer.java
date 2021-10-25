@@ -35,8 +35,8 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public static double FORWARD_OFFSET = 1.531576; // in; offset of the lateral wheel
     // first: 1.531576
 
-    public static double X_MULTIPLIER = 1;
-    public static double Y_MULTIPLIER = 1;
+    public static double X_MULTIPLIER = 0.97;
+    public static double Y_MULTIPLIER = 0.958571;
 
     private Encoder leftEncoder, rightEncoder, frontEncoder;
 
