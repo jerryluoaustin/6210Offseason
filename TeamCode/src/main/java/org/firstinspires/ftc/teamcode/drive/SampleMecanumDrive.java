@@ -1,16 +1,16 @@
 package org.firstinspires.ftc.teamcode.drive;
 
-import static org.firstinspires.ftc.teamcode.AutoDriveConstants.MAX_ACCEL;
-import static org.firstinspires.ftc.teamcode.AutoDriveConstants.MAX_ANG_ACCEL;
-import static org.firstinspires.ftc.teamcode.AutoDriveConstants.MAX_ANG_VEL;
-import static org.firstinspires.ftc.teamcode.AutoDriveConstants.MAX_VEL;
-import static org.firstinspires.ftc.teamcode.AutoDriveConstants.MOTOR_VELO_PID;
-import static org.firstinspires.ftc.teamcode.AutoDriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.AutoDriveConstants.TRACK_WIDTH;
-import static org.firstinspires.ftc.teamcode.AutoDriveConstants.encoderTicksToInches;
-import static org.firstinspires.ftc.teamcode.AutoDriveConstants.kA;
-import static org.firstinspires.ftc.teamcode.AutoDriveConstants.kStatic;
-import static org.firstinspires.ftc.teamcode.AutoDriveConstants.kV;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ACCEL;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_ACCEL;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_VEL;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_VEL;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MOTOR_VELO_PID;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.encoderTicksToInches;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kA;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kStatic;
+import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
 
 import androidx.annotation.NonNull;
 
@@ -56,8 +56,8 @@ import java.util.List;
  */
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(6, 0.1, 1);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0.1, 1);
 
     public static double LATERAL_MULTIPLIER = 1;
 
