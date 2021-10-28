@@ -111,6 +111,7 @@ public class TeleOpMode extends OpMode
 
 
     boolean gateClosed = true;
+    double duckDirection = 1;
 
 
     @Override
@@ -159,11 +160,17 @@ public class TeleOpMode extends OpMode
             liftStop();
         }
 
+        if (gamepad1.b)
+        {
+            duckDirection *= -1;
+        }
+
+
         //Carousel
         if ((gamepad1.right_trigger) > 0.1)
         {
-            RC.setPower(gamepad1.right_trigger);
-            LC.setPower(-gamepad1.right_trigger);
+            RC.setPower(gamepad1.right_trigger * duckDirection);
+            LC.setPower(-gamepad1.right_trigger * duckDirection);
         }
         else
         {
@@ -171,8 +178,7 @@ public class TeleOpMode extends OpMode
             LC.setPower(0);
         }
 
-
-
+        //Gate
         if (gamepad2.a && gateClosed == true)
         {
             openGate();
