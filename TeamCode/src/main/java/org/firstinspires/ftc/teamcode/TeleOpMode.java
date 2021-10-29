@@ -167,6 +167,7 @@ public class TeleOpMode extends OpMode
         BR.setPower(motorPower[2]);
         BL.setPower(motorPower[3]);
 
+
         //Lift go
         if (gamepad2.x)
         {
@@ -179,22 +180,24 @@ public class TeleOpMode extends OpMode
             liftStop();
         }
 
+
+        //Changes direction of carousel
         if (gamepad1.b)
         {
             duckDirection *= -1;
         }
 
-
         //Carousel
         if ((gamepad1.right_trigger) > 0.1)
         {
-            RC.setPower(gamepad1.right_trigger * duckDirection);
-            LC.setPower(-gamepad1.right_trigger * duckDirection);
+            RC.setPower(1 * duckDirection);
+            LC.setPower(1 * duckDirection);
         }
         else
         {
             carousel();
         }
+
 
         //Gate
         if (gamepad2.a && gateClosed == true)
@@ -208,6 +211,7 @@ public class TeleOpMode extends OpMode
             closeGate();
             gateClosed = true;
         }
+
 
         //Changes to outtake
         if (gamepad1.x)
@@ -225,6 +229,10 @@ public class TeleOpMode extends OpMode
         {
             stopIntake();
         }
+
+
+        telemetry.addData("Right Trigger:", gamepad1.right_trigger);
+        telemetry.update();
 
 
 
