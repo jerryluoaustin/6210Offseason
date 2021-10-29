@@ -20,8 +20,10 @@ public class TeleOpMode extends OpMode
     DcMotor LL;
     DcMotor RL;
 
+    /*
     //Intake motor
     DcMotor Intake;
+    */
 
     // right carousel and left carousel servo declaration
     CRServo RC;
@@ -43,7 +45,9 @@ public class TeleOpMode extends OpMode
         LL = hardwareMap.dcMotor.get("leftLift");
         RL = hardwareMap.dcMotor.get("rightLift");
 
+        /*
         Intake = hardwareMap.dcMotor.get("Intake");
+        */
 
         RC = hardwareMap.crservo.get("rightCarousel");
         LC = hardwareMap.crservo.get("leftCarousel");
@@ -59,6 +63,7 @@ public class TeleOpMode extends OpMode
         BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -113,6 +118,7 @@ public class TeleOpMode extends OpMode
         LG.setPosition(1);
     }
 
+    /*
     //Intake go
     public void goIntake(double speed)
     {
@@ -124,6 +130,8 @@ public class TeleOpMode extends OpMode
     {
         Intake.setPower(0);
     }
+
+     */
 
     //variable checking if the gate is closed.
     boolean gateClosed = true;
@@ -190,8 +198,8 @@ public class TeleOpMode extends OpMode
         //Carousel
         if ((gamepad1.right_trigger) > 0.1)
         {
-            RC.setPower(1 * duckDirection);
-            LC.setPower(1 * duckDirection);
+            RC.setPower(1);
+            LC.setPower(1);
         }
         else
         {
@@ -212,7 +220,7 @@ public class TeleOpMode extends OpMode
             gateClosed = true;
         }
 
-
+        /*
         //Changes to outtake
         if (gamepad1.x)
         {
@@ -229,12 +237,10 @@ public class TeleOpMode extends OpMode
         {
             stopIntake();
         }
+        */
 
-
-        telemetry.addData("Right Trigger:", gamepad1.right_trigger);
+        telemetry.addData("Right Trigger:", RC.getPower());
         telemetry.update();
-
-
 
     }
 
