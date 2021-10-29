@@ -18,14 +18,19 @@ public class Test extends LinearOpMode {
     public void runOpMode() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        TrajectorySequence myTrajectory = drive.trajectorySequenceBuilder(new Pose2d())
+        Pose2d startPose = new Pose2d(-24, -70, Math.toRadians(90));
 
-                .lineToLinearHeading(new Pose2d(-50.6, -41.1, Math.toRadians(180)))
-                //.waitSeconds(3)
-                //.lineToLinearHeading(new Pose2d(-11.3, -42.9, Math.toRadians(90)))
-                //.waitSeconds(3)
-                //.lineToLinearHeading(new Pose2d(10.3, -63.9, Math.toRadians(0)))
-                //.lineToLinearHeading(new Pose2d(37, -63.9, Math.toRadians(0)))
+        drive.setPoseEstimate(startPose);
+
+        TrajectorySequence myTrajectory = drive.trajectorySequenceBuilder(startPose)
+
+                .lineToLinearHeading(new Pose2d(-54.6, -64.1, Math.toRadians(200)))
+                .waitSeconds(2)
+                .lineToLinearHeading(new Pose2d(-11.3, -42.9, Math.toRadians(90)))
+                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(10.3, -68, Math.toRadians(0)))
+                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(45, -68, Math.toRadians(0)))
                 .build();
 
         waitForStart();

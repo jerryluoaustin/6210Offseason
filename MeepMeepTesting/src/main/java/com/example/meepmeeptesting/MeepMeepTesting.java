@@ -21,15 +21,15 @@ public class MeepMeepTesting {
                 // Set constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(45, 45, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(-24, -70, Math.toRadians(90)))
+                        drive.trajectorySequenceBuilder(new Pose2d(-24, -70, Math.toRadians(270)))
 
-                                .waitSeconds(2)
-                                .lineToLinearHeading(new Pose2d(-50.6, -61.1, Math.toRadians(180)))
-                                .waitSeconds(3)
-                                .lineToLinearHeading(new Pose2d(-11.3, -42.9, Math.toRadians(90)))
-                                .waitSeconds(3)
-                                .lineToLinearHeading(new Pose2d(10.3, -63.9, Math.toRadians(0)))
-                                .lineToLinearHeading(new Pose2d(37, -63.9, Math.toRadians(0)))
+                                //.waitSeconds(2)
+                                //.lineToLinearHeading(new Pose2d(-50.6, -61.1, Math.toRadians(180)))
+                                //.waitSeconds(3)
+                                //.lineToLinearHeading(new Pose2d(-11.3, -42.9, Math.toRadians(90)))
+                                //.waitSeconds(3)
+                                //.lineToLinearHeading(new Pose2d(10.3, -63.9, Math.toRadians(0)))
+                                //.lineToLinearHeading(new Pose2d(37, -63.9, Math.toRadians(0)))
                                 .build()
                 )
                 .start();
