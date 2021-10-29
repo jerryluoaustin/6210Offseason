@@ -20,6 +20,9 @@ public class TeleOpMode extends OpMode
     DcMotor LL;
     DcMotor RL;
 
+    //Intake motor
+    DcMotor Intake;
+
     // right carousel and left carousel servo declaration
     CRServo RC;
     CRServo LC;
@@ -39,6 +42,8 @@ public class TeleOpMode extends OpMode
 
         LL = hardwareMap.dcMotor.get("leftLift");
         RL = hardwareMap.dcMotor.get("rightLift");
+
+        Intake = hardwareMap.dcMotor.get("Intake");
 
         RC = hardwareMap.crservo.get("rightCarousel");
         LC = hardwareMap.crservo.get("leftCarousel");
@@ -107,11 +112,25 @@ public class TeleOpMode extends OpMode
         RG.setPosition(1);
         LG.setPosition(1);
     }
+
+    //Intake go
+    public void goIntake(double speed)
+    {
+        Intake.setPower(speed);
+    }
+
+    //Stop intake
+    public void stopIntake()
+    {
+        Intake.setPower(0);
+    }
+
     //variable checking if the gate is closed.
-
-
     boolean gateClosed = true;
+    //variable controlling the direction to spin the carousel
     double duckDirection = 1;
+    //variable to control whether it will intake or outtake the freight
+    double intakeDirection = 1;
 
 
     @Override
@@ -174,8 +193,7 @@ public class TeleOpMode extends OpMode
         }
         else
         {
-            RC.setPower(0);
-            LC.setPower(0);
+            carousel();
         }
 
         //Gate
@@ -189,6 +207,23 @@ public class TeleOpMode extends OpMode
         {
             closeGate();
             gateClosed = true;
+        }
+
+        //Changes to outtake
+        if (gamepad1.x)
+        {
+            intakeDirection += -1;
+        }
+
+        //Intake
+        if ((gamepad1.left_trigger) > 0.1)
+        {
+            goIntake(gamepad1.left_trigger * intakeDirection);
+        }
+        //Stop Intake
+        else
+        {
+            stopIntake();
         }
 
 
