@@ -68,6 +68,8 @@ public class TeleOpMode extends OpMode
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        LL.setDirection(DcMotorSimple.Direction.REVERSE);
+
         telemetry.addData("init ", "completed");
         telemetry.update();
     }
@@ -91,8 +93,8 @@ public class TeleOpMode extends OpMode
     //Lift method
     public void liftTest()
     {
-        LL.setPower(0.05);
-        RL.setPower(0.05);
+        LL.setPower(-gamepad2.right_stick_y);
+        RL.setPower(-gamepad2.right_stick_y);
     }
 
     public void liftStop()
@@ -109,12 +111,12 @@ public class TeleOpMode extends OpMode
     }
     public void closeGate()
     {
-        RG.setPosition(0);
+        RG.setPosition(1);
         LG.setPosition(0);
     }
     public void openGate()
     {
-        RG.setPosition(1);
+        RG.setPosition(0);
         LG.setPosition(1);
     }
 
@@ -177,13 +179,12 @@ public class TeleOpMode extends OpMode
 
 
         //Lift go
-        if (gamepad2.x)
-        {
+        if (Math.abs(gamepad2.right_stick_y) > 0.1) {
             liftTest();
+            telemetry.addData("Hi", RL.getPower());
+            telemetry.addData("Hello", LL.getPower());
         }
-
-        //Lift stop
-        if (gamepad2.b)
+        else
         {
             liftStop();
         }
@@ -195,16 +196,24 @@ public class TeleOpMode extends OpMode
             duckDirection *= -1;
         }
 
-        //Carousel
-        if ((gamepad1.right_trigger) > 0.1)
+        //Blue Carousel
+        if (gamepad1.right_bumper)
         {
-            RC.setPower(1);
-            LC.setPower(1);
+            RC.setPower(-0.9);
+            LC.setPower(-0.9);
+        }
+        //Red Carousel
+        else if (gamepad1.left_bumper)
+        {
+            RC.setPower(0.88);
+            LC.setPower(0.88);
         }
         else
         {
-            carousel();
+            RC.setPower(0);
+            LC.setPower(0);
         }
+
 
 
         //Gate
@@ -212,7 +221,6 @@ public class TeleOpMode extends OpMode
         {
             openGate();
             gateClosed = false;
-
         }
         else if (gamepad2.a && gateClosed == false)
         {
@@ -239,7 +247,8 @@ public class TeleOpMode extends OpMode
         }
         */
 
-        telemetry.addData("Right Trigger:", RC.getPower());
+        telemetry.addData("Right Bumper (Right Carousel):", RC.getPower());
+        telemetry.addData("Right Bumper (Left Carousel):", LC.getPower());
         telemetry.update();
 
     }
