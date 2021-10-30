@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import java.util.HashMap;
+
 @TeleOp(name="TeleOpMode", group = "TeleOp")
 public class TeleOpMode extends OpMode
 {
@@ -120,6 +122,24 @@ public class TeleOpMode extends OpMode
         LG.setPosition(1);
     }
 
+    public boolean isPressed(String name, boolean button){
+        boolean output = false;
+
+        //If the hashmap doesn't already contain the key
+        if (!buttons.containsKey(name)){
+            buttons.put(name, false);
+        }
+
+        boolean buttonWas = buttons.get(name);
+        if (button != buttonWas && button == true){
+            output = true;
+        }
+
+        buttons.put(name, button);
+
+        return output;
+    }
+
     /*
     //Intake go
     public void goIntake(double speed)
@@ -141,6 +161,8 @@ public class TeleOpMode extends OpMode
     double duckDirection = 1;
     //variable to control whether it will intake or outtake the freight
     double intakeDirection = 1;
+
+    public HashMap<String, Boolean> buttons = new HashMap<String, Boolean>();
 
 
     @Override
@@ -217,12 +239,12 @@ public class TeleOpMode extends OpMode
 
 
         //Gate
-        if (gamepad2.a && gateClosed == true)
+        if (isPressed("1a", gamepad1.a) && gateClosed == true)
         {
             openGate();
             gateClosed = false;
         }
-        else if (gamepad2.a && gateClosed == false)
+        else if (isPressed("1a", gamepad1.a) && gateClosed == false)
         {
             closeGate();
             gateClosed = true;
