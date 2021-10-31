@@ -244,7 +244,7 @@ public class TeleOpMode extends OpMode
             openGate();
             gateClosed = false;
         }
-        else if (isPressed("1a", gamepad1.a) && gateClosed == false)
+        else
         {
             closeGate();
             gateClosed = true;
