@@ -211,24 +211,24 @@ public class TeleOpMode extends OpMode
             liftStop();
         }
 
-
+/*
         //Changes direction of carousel
         if (gamepad1.b)
         {
             duckDirection *= -1;
         }
-
+*/
         //Blue Carousel
         if (gamepad1.right_bumper)
         {
-            RC.setPower(-0.9);
-            LC.setPower(-0.9);
+            RC.setPower(-0.85);
+            LC.setPower(0.85);
         }
         //Red Carousel
         else if (gamepad1.left_bumper)
         {
-            RC.setPower(0.88);
-            LC.setPower(0.88);
+            RC.setPower(0.85);
+            LC.setPower(-0.85);
         }
         else
         {
