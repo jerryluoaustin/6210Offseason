@@ -24,13 +24,13 @@ public class Test extends LinearOpMode {
 
         TrajectorySequence myTrajectory = drive.trajectorySequenceBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(-54.6, -64.1, Math.toRadians(200)))
+                .lineToLinearHeading(new Pose2d(-54.6, -65.1, Math.toRadians(225)))
                 .waitSeconds(2)
                 .lineToLinearHeading(new Pose2d(-11.3, -42.9, Math.toRadians(90)))
                 .waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(10.3, -68, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(10.3, -65, Math.toRadians(0)))
                 .waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(45, -68, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(45, -65, Math.toRadians(0)))
                 .build();
 
         waitForStart();
