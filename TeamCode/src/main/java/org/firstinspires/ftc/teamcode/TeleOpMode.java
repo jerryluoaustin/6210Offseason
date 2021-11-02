@@ -22,10 +22,10 @@ public class TeleOpMode extends OpMode
     DcMotor LL;
     DcMotor RL;
 
-    /*
+
     //Intake motor
     DcMotor Intake;
-    */
+
 
     // right carousel and left carousel servo declaration
     CRServo RC;
@@ -35,6 +35,10 @@ public class TeleOpMode extends OpMode
     Servo RG;
     Servo LG;
 
+    // Lowest encoder position
+    int lowest = 0;
+    // Highest encoder position
+    int highest = 0;
 
 
     public void init()
@@ -47,9 +51,9 @@ public class TeleOpMode extends OpMode
         LL = hardwareMap.dcMotor.get("leftLift");
         RL = hardwareMap.dcMotor.get("rightLift");
 
-        /*
+
         Intake = hardwareMap.dcMotor.get("Intake");
-        */
+
 
         RC = hardwareMap.crservo.get("rightCarousel");
         LC = hardwareMap.crservo.get("leftCarousel");
@@ -74,11 +78,8 @@ public class TeleOpMode extends OpMode
 
         LL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //Might not need b/c init might be set to 0 already
-        LL.setTargetPosition(0);
-        LL.setPower(0.3);
-
+        RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         telemetry.addData("init ", "completed");
         telemetry.update();
@@ -113,9 +114,20 @@ public class TeleOpMode extends OpMode
         RL.setPower(0);
     }
 
-    public void liftHigh()
+    public void automaticLift(int pos, boolean front)
     {
-        LL.setTargetPosition(LL.getCurrentPosition());
+        int tarPos = 0;
+
+        if (front) tarPos = lowest + pos;
+        else tarPos = highest - pos;
+
+        // Takes in encoder position to move lift to
+        LL.setTargetPosition(tarPos);
+        RL.setTargetPosition(tarPos);
+        LL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LL.setPower(0.5);
+        RL.setPower(0.5);
     }
 
     //Stop carousel
@@ -153,7 +165,7 @@ public class TeleOpMode extends OpMode
         return output;
     }
 
-    /*
+
     //Intake go
     public void goIntake(double speed)
     {
@@ -166,7 +178,7 @@ public class TeleOpMode extends OpMode
         Intake.setPower(0);
     }
 
-     */
+
 
     //variable checking if the gate is closed.
     boolean gateClosed = true;
@@ -181,6 +193,29 @@ public class TeleOpMode extends OpMode
     @Override
     public void loop()
     {
+        // Get the bounds of the encoder value of the lift
+        if (LL.getCurrentPosition() < lowest) {
+            lowest = LL.getCurrentPosition();
+        }
+
+        if (LL.getCurrentPosition() > highest) {
+            highest = LL.getCurrentPosition();
+        }
+
+        // Auto arm variables
+        // Encoder positions for each level
+        final int highFront = 0;
+        final int midFront = 0;
+        final int lowFront = 0;
+        final int highRear = 0;
+        final int midRear = 0;
+        final int lowRear = 0;
+
+        int high = highFront;
+        int mid = midFront;
+        int low = lowFront;
+        boolean front = true;
+
         double leftY = 0;
         double leftX = 0;
         double rightX = 0;
@@ -214,6 +249,7 @@ public class TeleOpMode extends OpMode
 
 
         //Lift go
+        /*
         if (Math.abs(gamepad2.right_stick_y) > 0.1) {
             liftTest();
             telemetry.addData("Hi", RL.getPower());
@@ -222,18 +258,41 @@ public class TeleOpMode extends OpMode
         else
         {
             liftStop();
-        }
+        }*/
 
+        // Change lift positions
+        if (isPressed("x", gamepad2.x)) {
+            if (front) {
+                high = highFront;
+                mid = midFront;
+                low = lowFront;
+                front = false;
+            }else {
+                high = highRear;
+                mid = midRear;
+                low = lowRear;
+                front = true;
+            }
+        }
         //Lift High
 
-        if (gamepad2.y)
+        if (isPressed("y", gamepad2.y))
         {
-
+            automaticLift(high, front);
         }
 
+
         //Lift Mid
+        if (isPressed("b", gamepad2.b))
+        {
+            automaticLift(mid, front);
+        }
 
         //Lift Low
+        if (isPressed("a", gamepad2.a))
+        {
+            automaticLift(low, front);
+        }
 
 /*
         //Changes direction of carousel
@@ -274,7 +333,7 @@ public class TeleOpMode extends OpMode
             gateClosed = true;
         }
 
-        /*
+
         //Changes to outtake
         if (gamepad1.x)
         {
@@ -291,10 +350,13 @@ public class TeleOpMode extends OpMode
         {
             stopIntake();
         }
-        */
+
 
         telemetry.addData("Right Bumper (Right Carousel):", RC.getPower());
         telemetry.addData("Right Bumper (Left Carousel):", LC.getPower());
+        telemetry.addData("L encoder", LL.getCurrentPosition());
+        telemetry.addData("R encoder", RL.getCurrentPosition());
+
         telemetry.update();
 
     }
