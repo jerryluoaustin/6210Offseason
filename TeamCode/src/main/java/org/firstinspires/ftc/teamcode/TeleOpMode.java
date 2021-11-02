@@ -4,11 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.teamcode.util.Encoder;
 
 import java.util.HashMap;
 
@@ -24,13 +21,12 @@ public class TeleOpMode extends OpMode
     //Driver Two Controller (mechanisms)
     DcMotor LL;
     DcMotor RL;
-    Encoder RLEncoder;
 
-/*
+
     //Intake motor
     DcMotor Intake;
 
-*/
+
     // right carousel and left carousel servo declaration
     CRServo RC;
     CRServo LC;
@@ -54,11 +50,10 @@ public class TeleOpMode extends OpMode
 
         LL = hardwareMap.dcMotor.get("leftLift");
         RL = hardwareMap.dcMotor.get("rightLift");
-        RLEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightLift"));
 
-/*
+
         Intake = hardwareMap.dcMotor.get("Intake");
-*/
+
 
         RC = hardwareMap.crservo.get("rightCarousel");
         LC = hardwareMap.crservo.get("leftCarousel");
@@ -79,11 +74,10 @@ public class TeleOpMode extends OpMode
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        RL.setDirection(DcMotorSimple.Direction.REVERSE);
+        //LL.setDirection(DcMotorSimple.Direction.REVERSE);
 
         LL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RLEncoder.setDirection(Encoder.Direction.REVERSE);
         RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -107,7 +101,7 @@ public class TeleOpMode extends OpMode
         BL.setPower(0);
     }
 
-    //Lift method
+    //Lift method.
     public void liftTest()
     {
         LL.setPower(-gamepad2.right_stick_y);
@@ -132,8 +126,8 @@ public class TeleOpMode extends OpMode
         RL.setTargetPosition(tarPos);
         LL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LL.setPower(1);
-        RL.setPower(1);
+        LL.setPower(0.5);
+        RL.setPower(0.5);
     }
 
     //Stop carousel
@@ -171,11 +165,11 @@ public class TeleOpMode extends OpMode
         return output;
     }
 
-/*
+
     //Intake go
-    public void goIntake(double speed)
+    public void goIntake()
     {
-        Intake.setPower(speed);
+        Intake.setPower(1);
     }
 
     //Stop intake
@@ -184,7 +178,7 @@ public class TeleOpMode extends OpMode
         Intake.setPower(0);
     }
 
-*/
+
 
     //variable checking if the gate is closed.
     boolean gateClosed = true;
@@ -210,7 +204,7 @@ public class TeleOpMode extends OpMode
 
         // Auto arm variables
         // Encoder positions for each level
-        final int highFront = 131;
+        final int highFront = 0;
         final int midFront = 0;
         final int lowFront = 0;
         final int highRear = 0;
@@ -255,19 +249,16 @@ public class TeleOpMode extends OpMode
 
 
         //Lift go
-
+        /*
         if (Math.abs(gamepad2.right_stick_y) > 0.1) {
-            LL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            LL.setPower(-gamepad2.right_stick_y);
-            RL.setPower(-gamepad2.right_stick_y);
+            liftTest();
             telemetry.addData("Hi", RL.getPower());
             telemetry.addData("Hello", LL.getPower());
         }
         else
         {
             liftStop();
-        }
+        }*/
 
         // Change lift positions
         if (isPressed("x", gamepad2.x)) {
@@ -348,18 +339,18 @@ public class TeleOpMode extends OpMode
         {
             intakeDirection += -1;
         }
-/*
+
         //Intake
         if ((gamepad1.left_trigger) > 0.1)
         {
-            goIntake(gamepad1.left_trigger * intakeDirection);
+            goIntake();
         }
         //Stop Intake
         else
         {
             stopIntake();
         }
-*/
+
 
         telemetry.addData("Right Bumper (Right Carousel):", RC.getPower());
         telemetry.addData("Right Bumper (Left Carousel):", LC.getPower());
