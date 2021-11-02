@@ -70,7 +70,15 @@ public class TeleOpMode extends OpMode
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        LL.setDirection(DcMotorSimple.Direction.REVERSE);
+        //LL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        LL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Might not need b/c init might be set to 0 already
+        LL.setTargetPosition(0);
+        LL.setPower(0.3);
+
 
         telemetry.addData("init ", "completed");
         telemetry.update();
@@ -103,6 +111,11 @@ public class TeleOpMode extends OpMode
     {
         LL.setPower(0);
         RL.setPower(0);
+    }
+
+    public void liftHigh()
+    {
+        LL.setTargetPosition(LL.getCurrentPosition());
     }
 
     //Stop carousel
@@ -210,6 +223,17 @@ public class TeleOpMode extends OpMode
         {
             liftStop();
         }
+
+        //Lift High
+
+        if (gamepad2.y)
+        {
+
+        }
+
+        //Lift Mid
+
+        //Lift Low
 
 /*
         //Changes direction of carousel

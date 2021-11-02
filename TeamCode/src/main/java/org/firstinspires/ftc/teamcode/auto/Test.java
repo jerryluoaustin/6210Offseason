@@ -18,7 +18,7 @@ public class Test extends LinearOpMode {
     public void runOpMode() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-24, -70, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(-24, -70, Math.toRadians(180));
 
         drive.setPoseEstimate(startPose);
 
