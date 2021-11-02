@@ -101,7 +101,7 @@ public class TeleOpMode extends OpMode
         BL.setPower(0);
     }
 
-    //Lift method
+    //Lift method.
     public void liftTest()
     {
         LL.setPower(-gamepad2.right_stick_y);
