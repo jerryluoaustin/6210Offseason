@@ -19,12 +19,11 @@ public class TeleOpMode extends OpMode
     DcMotor BL;
 
     //Driver Two Controller (mechanisms)
-    DcMotor LL;
     DcMotor RL;
 
 
     //Intake motor
-    DcMotor Intake;
+    //DcMotor Intake;
 
 
     // right carousel and left carousel servo declaration
@@ -48,11 +47,10 @@ public class TeleOpMode extends OpMode
         BR = hardwareMap.dcMotor.get("rightRear");
         BL = hardwareMap.dcMotor.get("leftRear");
 
-        LL = hardwareMap.dcMotor.get("leftLift");
         RL = hardwareMap.dcMotor.get("rightLift");
 
 
-        Intake = hardwareMap.dcMotor.get("Intake");
+        //Intake = hardwareMap.dcMotor.get("Intake");
 
 
         RC = hardwareMap.crservo.get("rightCarousel");
@@ -74,10 +72,7 @@ public class TeleOpMode extends OpMode
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        //LL.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        LL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RL.setDirection(DcMotorSimple.Direction.REVERSE);
         RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -104,13 +99,11 @@ public class TeleOpMode extends OpMode
     //Lift method.
     public void liftTest()
     {
-        LL.setPower(-gamepad2.right_stick_y);
         RL.setPower(-gamepad2.right_stick_y);
     }
 
     public void liftStop()
     {
-        LL.setPower(0);
         RL.setPower(0);
     }
 
@@ -122,12 +115,9 @@ public class TeleOpMode extends OpMode
         else tarPos = highest - pos;
 
         // Takes in encoder position to move lift to
-        LL.setTargetPosition(tarPos);
         RL.setTargetPosition(tarPos);
-        LL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LL.setPower(0.5);
-        RL.setPower(0.5);
+        RL.setPower(1);
     }
 
     //Stop carousel
@@ -165,7 +155,7 @@ public class TeleOpMode extends OpMode
         return output;
     }
 
-
+    /*
     //Intake go
     public void goIntake()
     {
@@ -177,7 +167,7 @@ public class TeleOpMode extends OpMode
     {
         Intake.setPower(0);
     }
-
+    */
 
 
     //variable checking if the gate is closed.
@@ -194,12 +184,12 @@ public class TeleOpMode extends OpMode
     public void loop()
     {
         // Get the bounds of the encoder value of the lift
-        if (LL.getCurrentPosition() < lowest) {
-            lowest = LL.getCurrentPosition();
+        if (RL.getCurrentPosition() < lowest) {
+            lowest = RL.getCurrentPosition();
         }
 
-        if (LL.getCurrentPosition() > highest) {
-            highest = LL.getCurrentPosition();
+        if (RL.getCurrentPosition() > highest) {
+            highest = RL.getCurrentPosition();
         }
 
         // Auto arm variables
@@ -249,16 +239,16 @@ public class TeleOpMode extends OpMode
 
 
         //Lift go
-        /*
+
         if (Math.abs(gamepad2.right_stick_y) > 0.1) {
-            liftTest();
+            RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            RL.setPower(gamepad2.right_stick_y);
             telemetry.addData("Hi", RL.getPower());
-            telemetry.addData("Hello", LL.getPower());
         }
         else
         {
             liftStop();
-        }*/
+        }
 
         // Change lift positions
         if (isPressed("x", gamepad2.x)) {
@@ -339,7 +329,7 @@ public class TeleOpMode extends OpMode
         {
             intakeDirection += -1;
         }
-
+        /*
         //Intake
         if ((gamepad1.left_trigger) > 0.1)
         {
@@ -350,11 +340,10 @@ public class TeleOpMode extends OpMode
         {
             stopIntake();
         }
-
+        */
 
         telemetry.addData("Right Bumper (Right Carousel):", RC.getPower());
         telemetry.addData("Right Bumper (Left Carousel):", LC.getPower());
-        telemetry.addData("L encoder", LL.getCurrentPosition());
         telemetry.addData("R encoder", RL.getCurrentPosition());
 
         telemetry.update();

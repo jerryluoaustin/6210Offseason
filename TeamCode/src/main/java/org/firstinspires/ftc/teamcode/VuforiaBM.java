@@ -69,29 +69,20 @@ public class VuforiaBM {
     }
 
     //returns 1, 2, or 3 for the three possible capstone locations
+    // 1 : right || 2 : mid || 3 : left
+    // RED CLOSE TO CAROUSEL COORDINATES : RIGHT (1) - 698, 600 || MID (2) - 232, 600
     public int capPositionReturn() throws InterruptedException{
 
         Bitmap bm = this.getBitmap();
 
-        int p1 = blue(bm.getPixel(640, 360));
-        int p2 = blue(bm.getPixel(0, 450));
+        int p1 = blue(bm.getPixel(698, 600));
+        int p2 = blue(bm.getPixel(232, 600));
 
         //threshold values for capstone color
-        if (p1 < 50) {
+        if (p1 < 70) return 1;
+        if (p2 < 70) return 2;
+        else return 3;
 
-            return 1;
-
-        }
-
-        else if (p2 < 50) {
-
-            return 2;
-        }
-
-        else {
-
-            return 3;
-        }
     }
 
     // Check 3 locations for capstone

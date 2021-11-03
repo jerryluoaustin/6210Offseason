@@ -24,16 +24,14 @@ public class Test extends LinearOpMode {
         IDLE            // Our bot will enter the IDLE state when done
     }
 
-    public static double DISTANCE = 50;
     State currentState = State.IDLE;
+    Pose2d startPose = new Pose2d(-24, -70, Math.toRadians(90));
 
     @Override
     public void runOpMode() {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Manipulators manip = new Manipulators(this);
-
-        Pose2d startPose = new Pose2d(-24, -70, Math.toRadians(0));
+        //Manipulators manip = new Manipulators(this);
 
         drive.setPoseEstimate(startPose);
 
@@ -60,61 +58,83 @@ public class Test extends LinearOpMode {
 
         waitForStart();
 
-        if(isStopRequested()) return;
+        if (isStopRequested()) return;
 
         currentState = State.TRAJECTORY_1;
         drive.followTrajectoryAsync(trajectory1);
 
-        switch (currentState) {
+        while (opModeIsActive() && !isStopRequested()) {
 
-            case TRAJECTORY_1:
-                // Check if the drive class isn't busy
-                // `isBusy() == true` while it's following the trajectory
-                // Once `isBusy() == false`, the trajectory follower signals that it is finished
-                // We move on to the next state
-                // Make sure we use the async follow function
-                if (!drive.isBusy()) {
-                    currentState = State.CAROUSEL;
-                    manip.redCarousel();
-                    waitTimer1.reset();
 
-                }
-                break;
-            case CAROUSEL:
-                // Change to check if carousel is busy
-                if (waitTimer1.seconds() >= waitTime1) {
-                    currentState = State.TRAJECTORY_2;
-                    drive.followTrajectoryAsync(trajectory2);
-                    manip.carouselStop();
-                }
-                break;
-            case TRAJECTORY_2:
-                // Check if the drive class is busy turning
-                // If not, move onto the next state, TRAJECTORY_3, once finished
-                if (!drive.isBusy()) {
-                    currentState = State.DROP;
-                }
-                break;
-            case DROP:
-                // Check if the drive class is busy following the trajectory
-                // If not, move onto the next state, WAIT_1
-                if (!drive.isBusy()) {
-                    currentState = State.TRAJECTORY_3;
-                    drive.followTrajectorySequenceAsync(trajectory3);
-                }
-                break;
-            case TRAJECTORY_3:
-                // Check if the timer has exceeded the specified wait time
-                // If so, move on to the TURN_2 state
-                if (!drive.isBusy()) {
-                    currentState = State.IDLE;
-                }
-                break;
-            case IDLE:
-                // Do nothing in IDLE
-                // currentState does not change once in IDLE
-                // This concludes the autonomous program
-                break;
+            switch (currentState) {
+
+                case TRAJECTORY_1:
+                    // Check if the drive class isn't busy
+                    // `isBusy() == true` while it's following the trajectory
+                    // Once `isBusy() == false`, the trajectory follower signals that it is finished
+                    // We move on to the next state
+                    // Make sure we use the async follow function
+                    telemetry.addData("Trajectory 1", currentState);
+                    telemetry.update();
+                    if (!drive.isBusy()) {
+                        currentState = State.CAROUSEL;
+                        //manip.redCarousel();
+                        waitTimer1.reset();
+                    }
+                    break;
+                case CAROUSEL:
+                    // Change to check if carousel is busy
+                    telemetry.addData("Carousel", "here");
+                    telemetry.update();
+                    if (waitTimer1.seconds() >= waitTime1) {
+                        currentState = State.TRAJECTORY_2;
+                        drive.followTrajectoryAsync(trajectory2);
+                        //manip.carouselStop();
+                    }
+                    break;
+                case TRAJECTORY_2:
+                    // Check if the drive class is busy turning
+                    // If not, move onto the next state, TRAJECTORY_3, once finished
+                    if (!drive.isBusy()) {
+                        currentState = State.DROP;
+                    }
+                    break;
+                case DROP:
+                    // Check if the drive class is busy following the trajectory
+                    // If not, move onto the next state, WAIT_1
+                    if (!drive.isBusy()) {
+                        currentState = State.TRAJECTORY_3;
+                        drive.followTrajectorySequenceAsync(trajectory3);
+                    }
+                    break;
+                case TRAJECTORY_3:
+                    // Check if the timer has exceeded the specified wait time
+                    // If so, move on to the TURN_2 state
+                    if (!drive.isBusy()) {
+                        currentState = State.IDLE;
+                    }
+                    break;
+                case IDLE:
+                    telemetry.addData("IDLE", "here");
+                    telemetry.update();
+                    // Do nothing in IDLE
+                    // currentState does not change once in IDLE
+                    // This concludes the autonomous program
+                    break;
+            }
+            drive.update();
+
+            // Read pose
+            Pose2d poseEstimate = drive.getPoseEstimate();
+
+
+            // Print pose to telemetry
+            telemetry.addData("x", poseEstimate.getX());
+            telemetry.addData("y", poseEstimate.getY());
+            telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.update();
         }
+
+
     }
 }

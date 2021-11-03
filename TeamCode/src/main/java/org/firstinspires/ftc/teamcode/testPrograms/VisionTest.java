@@ -32,19 +32,17 @@ public class VisionTest extends LinearOpMode {
 
         Bitmap bm = vuforia.getBitmap();
 
-        int pixel2 = bm.getPixel(640, 360);
-        int pixel1 = bm.getPixel(0, 450);
-        telemetry.addData("center pixel", pixel1);
-        telemetry.addData("left pixel", pixel2);
+        telemetry.addData("pos", vuforia.capPositionReturn());
 
-        telemetry.addData("Lred", red(pixel1));
-        telemetry.addData("Lgreen", green(pixel1));
-        telemetry.addData("Lblue", blue(pixel1));
+        /*
+        int pixel3 = blue(bm.getPixel(232, 600));
+        int pixel2 = blue(bm.getPixel(698, 600));
+        int pixel1 = blue(bm.getPixel(0, 0));
 
-        telemetry.addData("Rred", red(pixel2));
-        telemetry.addData("Rgreen", green(pixel2));
-        telemetry.addData("Rblue", blue(pixel2));
-
+        telemetry.addData("3", pixel3);
+        telemetry.addData("2", pixel2);
+        telemetry.addData("1", pixel1);
+        */
 
         telemetry.addData("program done",": complete");
         telemetry.update();
