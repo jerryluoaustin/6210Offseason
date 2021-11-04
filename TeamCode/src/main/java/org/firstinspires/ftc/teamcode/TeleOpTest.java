@@ -18,6 +18,8 @@ public class TeleOpTest extends OpMode
     DcMotor BR;
     DcMotor BL;
 
+
+
     //variable checking if the gate is closed.
     boolean gateClosed = true;
     //variable controlling the direction to spin the carousel
@@ -37,6 +39,16 @@ public class TeleOpTest extends OpMode
         FL = hardwareMap.dcMotor.get("leftFront");
         BR = hardwareMap.dcMotor.get("rightRear");
         BL = hardwareMap.dcMotor.get("leftRear");
+
+        FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
 
         telemetry.addData("init ", "completed");
         telemetry.update();

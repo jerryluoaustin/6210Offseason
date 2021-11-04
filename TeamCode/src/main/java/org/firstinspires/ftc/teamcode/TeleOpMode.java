@@ -295,13 +295,13 @@ public class TeleOpMode extends OpMode
         if (gamepad1.right_bumper)
         {
             RC.setPower(0.85);
-            LC.setPower(-0.85);
+            LC.setPower(0.85);
         }
         //Red Carousel
         else if (gamepad1.left_bumper)
         {
             RC.setPower(-0.85);
-            LC.setPower(0.85);
+            LC.setPower(-0.85);
         }
         else
         {
@@ -342,8 +342,8 @@ public class TeleOpMode extends OpMode
         }
         */
 
-        telemetry.addData("Right Bumper (Right Carousel):", RC.getPower());
-        telemetry.addData("Right Bumper (Left Carousel):", LC.getPower());
+        telemetry.addData("Right Carousel:", RC.getPower());
+        telemetry.addData("Left Carousel:", LC.getPower());
         telemetry.addData("R encoder", RL.getCurrentPosition());
 
         telemetry.update();
