@@ -9,17 +9,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.AutoBase;
 import org.firstinspires.ftc.teamcode.Manipulators;
+import org.firstinspires.ftc.teamcode.VuforiaBM;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "Test", group = "testTest")
+@Autonomous(name = "RedClose", group = "testTest")
 public class Test extends LinearOpMode {
 
     enum State {
         TRAJECTORY_1,   // Go to carousel
         CAROUSEL,       // Spin carousel
         TRAJECTORY_2,   // Go to depot
-        DROP,           // Drop cargo
+        LIFT,           // Lift cargo
+        OUTTAKE,        // Outtake cargo
+        RETRACT,        // Retract lift
         TRAJECTORY_3,   // Go to warehouse
         IDLE            // Our bot will enter the IDLE state when done
     }
@@ -28,10 +31,11 @@ public class Test extends LinearOpMode {
     Pose2d startPose = new Pose2d(-24, -70, Math.toRadians(90));
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException{
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        //Manipulators manip = new Manipulators(this);
+        Manipulators manip = new Manipulators(hardwareMap);
+        VuforiaBM vuforia = new VuforiaBM(this);
 
         drive.setPoseEstimate(startPose);
 
@@ -42,7 +46,9 @@ public class Test extends LinearOpMode {
 
         //Wait during carousel
         double waitTime1 = 5;
-        ElapsedTime waitTimer1 = new ElapsedTime();
+        //Wait during outtake
+        double waitTime2 = 3;
+        ElapsedTime waitTimer = new ElapsedTime();
 
         // Second trajectory to depot
         // Ensure that we call trajectory1.end() as the start for this one
@@ -52,9 +58,12 @@ public class Test extends LinearOpMode {
 
         // Third trajectory into the warehouse
         TrajectorySequence trajectory3 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(10.3, -59.2, Math.toRadians(10)))
-                .lineToLinearHeading(new Pose2d(50, -56, Math.toRadians(12)))
+                .lineToLinearHeading(new Pose2d(10.3, -67.2, Math.toRadians(10)))
+                .lineToLinearHeading(new Pose2d(50, -67.2, Math.toRadians(12)))
                 .build();
+
+        // Start doing vision
+        int pos = vuforia.capPositionReturn();
 
         waitForStart();
 
@@ -78,31 +87,51 @@ public class Test extends LinearOpMode {
                     telemetry.update();
                     if (!drive.isBusy()) {
                         currentState = State.CAROUSEL;
-                        //manip.redCarousel();
-                        waitTimer1.reset();
+                        manip.redCarousel();
+                        waitTimer.reset();
                     }
                     break;
                 case CAROUSEL:
-                    // Change to check if carousel is busy
-                    telemetry.addData("Carousel", "here");
+                    // Use wait time to spin duck off carousel
+                    telemetry.addData("Carousel", currentState);
                     telemetry.update();
-                    if (waitTimer1.seconds() >= waitTime1) {
+                    if (waitTimer.seconds() >= waitTime1) {
                         currentState = State.TRAJECTORY_2;
                         drive.followTrajectoryAsync(trajectory2);
-                        //manip.carouselStop();
+                        manip.carouselStop();
                     }
                     break;
                 case TRAJECTORY_2:
                     // Check if the drive class is busy turning
-                    // If not, move onto the next state, TRAJECTORY_3, once finished
+                    // If not, move onto the next state, DROP, once finished
                     if (!drive.isBusy()) {
-                        currentState = State.DROP;
+                        currentState = State.LIFT;
+                        manip.automaticLift(pos);
                     }
                     break;
-                case DROP:
-                    // Check if the drive class is busy following the trajectory
-                    // If not, move onto the next state, WAIT_1
-                    if (!drive.isBusy()) {
+                case LIFT:
+                    // Make sure the lift has reached target position
+                    // by checking if it's still busy
+                    // When reached, outtake block
+                    if (!manip.liftIsBusy()) {
+                        currentState = State.OUTTAKE;
+                        // manip.intake() or something like that
+                    }
+                    break;
+                case OUTTAKE:
+                    // Make sure the lift has reached target position
+                    // by checking if it's still busy
+                    // When reached, outtake block
+                    if (waitTimer.seconds() >= waitTime2) {
+                        currentState = State.RETRACT;
+                        manip.automaticLift(0);
+                    }
+                    break;
+                case RETRACT:
+                    // Make sure the lift has reached target position
+                    // by checking if it's still busy
+                    // When reached, outtake block
+                    if (!manip.liftIsBusy()) {
                         currentState = State.TRAJECTORY_3;
                         drive.followTrajectorySequenceAsync(trajectory3);
                     }

@@ -194,12 +194,12 @@ public class TeleOpMode extends OpMode
 
         // Auto arm variables
         // Encoder positions for each level
-        final int highFront = 0;
-        final int midFront = 0;
-        final int lowFront = 0;
-        final int highRear = 0;
-        final int midRear = 0;
-        final int lowRear = 0;
+        final int highFront = 999;
+        final int midFront = 607;
+        final int lowFront = 293;
+        final int highRear = 3220;
+        final int midRear = 3648;
+        final int lowRear = 4000;
 
         int high = highFront;
         int mid = midFront;
@@ -294,14 +294,14 @@ public class TeleOpMode extends OpMode
         //Blue Carousel
         if (gamepad1.right_bumper)
         {
-            RC.setPower(-0.85);
-            LC.setPower(0.85);
+            RC.setPower(0.85);
+            LC.setPower(-0.85);
         }
         //Red Carousel
         else if (gamepad1.left_bumper)
         {
-            RC.setPower(0.85);
-            LC.setPower(-0.85);
+            RC.setPower(-0.85);
+            LC.setPower(0.85);
         }
         else
         {
