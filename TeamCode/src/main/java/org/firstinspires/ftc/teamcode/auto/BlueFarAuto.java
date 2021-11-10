@@ -1,20 +1,18 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.AutoBase;
 import org.firstinspires.ftc.teamcode.Manipulators;
 import org.firstinspires.ftc.teamcode.VuforiaBM;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "RedClose", group = "testTest")
-public class Test extends LinearOpMode {
+@Autonomous(name = "BlueFar", group = "testTest")
+public class BlueFarAuto extends LinearOpMode {
 
     enum State {
         TRAJECTORY_1,   // Go to carousel
@@ -28,7 +26,7 @@ public class Test extends LinearOpMode {
     }
 
     State currentState = State.IDLE;
-    Pose2d startPose = new Pose2d(-24, -70, Math.toRadians(90));
+    Pose2d startPose = new Pose2d(0, -70, Math.toRadians(270));
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -41,7 +39,7 @@ public class Test extends LinearOpMode {
 
         //First trajectory to carousel
         Trajectory trajectory1 = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-59.75, -62.5, Math.toRadians(229)))
+                .lineToLinearHeading(new Pose2d(-59.75, 62.5, Math.toRadians(131)))
                 .build();
 
         //Wait during carousel
@@ -53,13 +51,13 @@ public class Test extends LinearOpMode {
         // Second trajectory to depot
         // Ensure that we call trajectory1.end() as the start for this one
         Trajectory trajectory2 = drive.trajectoryBuilder(trajectory1.end())
-                .lineToLinearHeading(new Pose2d(-11.3, -36, Math.toRadians(98.5)))
+                .lineToLinearHeading(new Pose2d(-11.3, 36, Math.toRadians(261.5)))
                 .build();
 
         // Third trajectory into the warehouse
         TrajectorySequence trajectory3 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(10.3, -67.2, Math.toRadians(10)))
-                .lineToLinearHeading(new Pose2d(50, -67.2, Math.toRadians(12)))
+                .lineToLinearHeading(new Pose2d(10.3, 67.2, Math.toRadians(350)))
+                .lineToLinearHeading(new Pose2d(50, 67.2, Math.toRadians(348)))
                 .build();
 
         // Start doing vision

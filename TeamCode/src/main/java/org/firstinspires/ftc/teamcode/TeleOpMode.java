@@ -170,10 +170,6 @@ public class TeleOpMode extends OpMode
     */
 
 
-    //variable checking if the gate is closed.
-    boolean gateClosed = true;
-    //variable controlling the direction to spin the carousel
-    double duckDirection = 1;
     //variable to control whether it will intake or outtake the freight
     double intakeDirection = 1;
 
@@ -312,31 +308,29 @@ public class TeleOpMode extends OpMode
 
 
         //Gate
-        if (isPressed("1a", gamepad1.a) && gateClosed == true)
+        if (gamepad1.dpad_up)
         {
             openGate();
-            gateClosed = false;
         }
-        else if (isPressed("1a", gamepad1.a) && gateClosed == false)
+        else if (gamepad1.dpad_down)
         {
             closeGate();
-            gateClosed = true;
         }
 
 
         //Changes to outtake
         if (gamepad1.x)
         {
-            intakeDirection += -1;
+            intakeDirection *= -1;
         }
         /*
         //Intake
-        if ((gamepad1.left_trigger) > 0.1)
+        if (Math.abs(gamepad1.left_trigger) > 0.1)
         {
             goIntake();
         }
         //Stop Intake
-        else
+        else if (Math.abs(gamepad1.left_trigger) > 0.1)
         {
             stopIntake();
         }

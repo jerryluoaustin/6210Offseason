@@ -34,6 +34,9 @@ public class Manipulators {
     //Intake motor
     private DcMotor Intake = null;
 
+    //Intake servos
+    private Servo FI;
+    private Servo BI;
 
     // right carousel and left carousel servo declaration
     private CRServo RC;
@@ -71,6 +74,10 @@ public class Manipulators {
         // servo for left and right gate
         RG = robot.get(Servo.class, "rightGate");
         LG = robot.get(Servo.class, "leftGate");
+
+        //intake servos
+        FI = robot.get(Servo.class, "frontIntake");
+        BI = robot.get(Servo.class, "backIntake");
 
 
         // Lift
@@ -165,10 +172,17 @@ public class Manipulators {
         RG.setPosition(1);
         LG.setPosition(0);
     }
+
     public void openGate()
     {
         RG.setPosition(0);
         LG.setPosition(1);
+    }
+
+    public void intakeControl(double frontServo, double backServo)
+    {
+        FI.setPosition(frontServo);
+        BI.setPosition(backServo);
     }
 
 }

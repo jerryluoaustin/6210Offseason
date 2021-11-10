@@ -17,7 +17,7 @@ public class TeleOpTest extends OpMode
     DcMotor FR;
     DcMotor BR;
     DcMotor BL;
-
+    DcMotor IT;
 
 
     //variable checking if the gate is closed.
@@ -40,6 +40,8 @@ public class TeleOpTest extends OpMode
         BR = hardwareMap.dcMotor.get("rightRear");
         BL = hardwareMap.dcMotor.get("leftRear");
 
+        IT = hardwareMap.dcMotor.get("intake");
+
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -49,6 +51,8 @@ public class TeleOpTest extends OpMode
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
+
+
 
         telemetry.addData("init ", "completed");
         telemetry.update();
@@ -174,35 +178,72 @@ public class TeleOpTest extends OpMode
 
 
         //Gate
-        if (isPressed("1a", gamepad1.a) && gateClosed == true)
+        if (gamepad1.dpad_up)
         {
             manip.openGate();
-            gateClosed = false;
         }
-        else if (isPressed("1a", gamepad1.a) && gateClosed == false)
+        else if (gamepad1.dpad_down)
         {
             manip.closeGate();
-            gateClosed = true;
         }
 
 
         //Changes to outtake
+        /*
         if (gamepad1.x)
         {
             intakeDirection += -1;
         }
-        /*
+        */
+
         //Intake
-        if ((gamepad1.left_trigger) > 0.1)
+        if (Math.abs(gamepad2.left_trigger) > 0.1)
         {
-            goIntake();
+            IT.setPower(-gamepad2.left_trigger);
         }
+
         //Stop Intake
+        else if (Math.abs(gamepad2.right_trigger) > 0.1)
+        {
+            IT.setPower(gamepad2.right_trigger);
+        }
+
         else
         {
-            stopIntake();
+            IT.setPower(0);
         }
-        */
+
+        //Intake servo controls
+
+        if (gamepad2.dpad_down)
+        {
+            manip.intakeControl(1,1);
+        }
+
+        if (gamepad2.dpad_right)
+        {
+            manip.intakeControl(1,0);
+        }
+
+        if (gamepad2.dpad_left)
+        {
+            manip.intakeControl(0,1);
+        }
+        if (gamepad2.dpad_down)
+        {
+            manip.intakeControl(0,0);
+        }
+
+        if (gamepad2.dpad_right)
+        {
+            manip.intakeControl(1,0);
+        }
+
+        if (gamepad2.dpad_left)
+        {
+            manip.intakeControl(0,1);
+        }
+
 
         // Switch back to manual lift
         if (Math.abs(gamepad2.right_stick_y) > 0.1) manual = true;
