@@ -35,7 +35,7 @@ public class BlueClosePark extends LinearOpMode {
 
         //First trajectory to carousel
         Trajectory trajectory1 = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-59.75, 63.5, Math.toRadians(229)))
+                .lineToLinearHeading(new Pose2d(-59.75, 63.5, Math.toRadians(131)))
                 .build();
 
         //Wait during carousel
