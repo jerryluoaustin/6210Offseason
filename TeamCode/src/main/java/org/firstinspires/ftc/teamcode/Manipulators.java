@@ -140,13 +140,13 @@ public class Manipulators {
     }
 
     public void redCarousel(){
-        RC.setPower(0.85);
-        LC.setPower(0.85);
+        RC.setPower(-0.85);
+        LC.setPower(-0.85);
     }
 
     public void blueCarousel(){
-        RC.setPower(-0.85);
-        LC.setPower(-0.85);
+        RC.setPower(0.85);
+        LC.setPower(0.85);
     }
 
     public void carouselStop(){
@@ -176,7 +176,10 @@ public class Manipulators {
     public void intake(boolean out) {
         if (out) IT.setPower(1);
         else IT.setPower(-1);
+    }
 
+    public void intakeStop() {
+        IT.setPower(0);
     }
 
 }

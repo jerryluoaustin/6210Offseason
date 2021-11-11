@@ -45,8 +45,8 @@ public class BlueClosePark extends LinearOpMode {
         // Third trajectory into the warehouse
         TrajectorySequence trajectory2 = drive.trajectorySequenceBuilder(trajectory1.end())
                 .lineToLinearHeading(new Pose2d(-24, 71.2, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(10.3, 73.2, Math.toRadians(180)))
-                //.lineToLinearHeading(new Pose2d(50, 73.2, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(10.3, 75.2, Math.toRadians(195)))
+                .lineToLinearHeading(new Pose2d(50, 75.2, Math.toRadians(195)))
                 .build();
 
         // Start doing vision
