@@ -57,7 +57,7 @@ public class DriveConstants {
      */
 
     // Battery 12.8 V , max 48
-    public static double kV = 0.0195195745489133503;
+    public static double kV = 0.0175195745489133503;
     public static double kA = 0.007;
     public static double kStatic = 0;
 

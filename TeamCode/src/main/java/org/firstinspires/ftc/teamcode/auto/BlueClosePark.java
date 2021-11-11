@@ -35,7 +35,7 @@ public class BlueClosePark extends LinearOpMode {
 
         //First trajectory to carousel
         Trajectory trajectory1 = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-59.75, 63.5, Math.toRadians(131)))
+                .lineToLinearHeading(new Pose2d(-57.75, 64.5, Math.toRadians(131)))
                 .build();
 
         //Wait during carousel
@@ -44,8 +44,9 @@ public class BlueClosePark extends LinearOpMode {
 
         // Third trajectory into the warehouse
         TrajectorySequence trajectory2 = drive.trajectorySequenceBuilder(trajectory1.end())
-                .lineToLinearHeading(new Pose2d(10.3, 67.2, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(50, 67.2, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(-24, 71.2, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(10.3, 73.2, Math.toRadians(180)))
+                //.lineToLinearHeading(new Pose2d(50, 73.2, Math.toRadians(180)))
                 .build();
 
         // Start doing vision
