@@ -47,7 +47,7 @@ public class RedCloseAuto extends LinearOpMode {
         //Wait during carousel
         double waitTime1 = 5;
         //Wait during outtake
-        double waitTime2 = 3;
+        double waitTime2 = 1;
         ElapsedTime waitTimer = new ElapsedTime();
 
         // Second trajectory to depot
@@ -115,7 +115,7 @@ public class RedCloseAuto extends LinearOpMode {
                     // When reached, outtake block
                     if (!manip.liftIsBusy()) {
                         currentState = State.OUTTAKE;
-                        // manip.intake() or something like that
+                        manip.intake(true);
                     }
                     break;
                 case OUTTAKE:

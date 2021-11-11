@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -32,7 +33,7 @@ public class Manipulators {
 
 
     //Intake motor
-    private DcMotor Intake = null;
+    private DcMotor IT;
 
     //Intake servos
     private Servo FI;
@@ -49,24 +50,9 @@ public class Manipulators {
     public Manipulators(HardwareMap robot) {
         this.robot = robot;
 
-        /*
-        RL = robot.hardwareMap.dcMotor.get("rightLift");
-
-
-        //Intake = hardwareMap.dcMotor.get("Intake");
-
-
-        RC = robot.hardwareMap.crservo.get("rightCarousel");
-        LC = robot.hardwareMap.crservo.get("leftCarousel");
-
-        // servo for left and right gate
-        RG = robot.hardwareMap.servo.get("rightGate");
-        LG = robot.hardwareMap.servo.get("leftGate");
-        */
-
         RL = robot.get(DcMotor.class, "rightLift");
 
-        //Intake = robot.dcMotor.get("Intake");
+        IT = robot.get(DcMotor.class, "intake");
 
         RC = robot.get(CRServo.class, "rightCarousel");
         LC = robot.get(CRServo.class, "leftCarousel");
@@ -82,6 +68,7 @@ public class Manipulators {
 
         // Lift
         RL = robot.get(DcMotor.class, "rightLift");
+        RL.setDirection(DcMotorSimple.Direction.REVERSE);
         RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
@@ -152,14 +139,14 @@ public class Manipulators {
         RL.setPower(0);
     }
 
-    public void blueCarousel(){
+    public void redCarousel(){
         RC.setPower(0.85);
-        LC.setPower(-0.85);
+        LC.setPower(0.85);
     }
 
-    public void redCarousel(){
+    public void blueCarousel(){
         RC.setPower(-0.85);
-        LC.setPower(0.85);
+        LC.setPower(-0.85);
     }
 
     public void carouselStop(){
@@ -179,10 +166,17 @@ public class Manipulators {
         LG.setPosition(1);
     }
 
+
     public void intakeControl(double frontServo, double backServo)
     {
         FI.setPosition(frontServo);
         BI.setPosition(backServo);
+    }
+
+    public void intake(boolean out) {
+        if (out) IT.setPower(1);
+        else IT.setPower(-1);
+
     }
 
 }
