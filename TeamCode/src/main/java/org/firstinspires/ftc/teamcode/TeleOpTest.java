@@ -29,6 +29,8 @@ public class TeleOpTest extends OpMode
     //variable to control whether it will intake or outtake the freight
     double intakeDirection = 1;
 
+    boolean servoBool = true;
+
     boolean manual = true;
 
     public HashMap<String, Boolean> buttons = new HashMap<String, Boolean>();
@@ -220,7 +222,7 @@ public class TeleOpTest extends OpMode
         }
 
         //Intake servo controls
-/*
+
         if (gamepad2.dpad_down)
         {
             manip.intakeControl(1,1);
@@ -237,19 +239,20 @@ public class TeleOpTest extends OpMode
         }
         if (gamepad2.dpad_down)
         {
-            manip.intakeControl(0,0);
+            if (servoBool)
+            {
+                manip.intakeControl(1,0);
+                servoBool = false;
+            }
+            else
+            {
+                manip.intakeControl(0,1);
+                servoBool = true;
+            }
         }
 
-        if (gamepad2.dpad_right)
-        {
-            manip.intakeControl(1,0);
-        }
 
-        if (gamepad2.dpad_left)
-        {
-            manip.intakeControl(0,1);
-        }
-*/
+
 
 
         // Switch back to manual lift
