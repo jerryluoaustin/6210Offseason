@@ -34,6 +34,7 @@ public class TeleOpMode extends OpMode
     Servo RG;
     Servo LG;
 
+
     // Lowest encoder position
     int lowest = 0;
     // Highest encoder position
@@ -190,12 +191,12 @@ public class TeleOpMode extends OpMode
 
         // Auto arm variables
         // Encoder positions for each level
-        final int highFront = 999;
-        final int midFront = 607;
-        final int lowFront = 293;
-        final int highRear = 3220;
-        final int midRear = 3648;
-        final int lowRear = 4000;
+        final int highFront = 1050;
+        final int midFront = 960;
+        final int lowFront = 580;
+        final int highRear = 3000;
+        final int midRear = 3220;
+        final int lowRear = 3648;
 
         int high = highFront;
         int mid = midFront;
