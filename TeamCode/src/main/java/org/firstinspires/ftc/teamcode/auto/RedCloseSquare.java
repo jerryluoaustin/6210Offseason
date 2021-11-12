@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.VuforiaBM;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "Test2", group = "testTest")
-public class Test2 extends LinearOpMode {
+@Autonomous(name = "RedCloseSquare", group = "testTest")
+public class RedCloseSquare extends LinearOpMode {
 
     enum State {
         TRAJECTORY_1,   // Go to carousel
@@ -39,28 +39,28 @@ public class Test2 extends LinearOpMode {
 
         //First trajectory to carousel
         Trajectory trajectory1 = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-58.75, -65.5, Math.toRadians(239)))
+                .lineToLinearHeading(new Pose2d(-61.5, -63.5, Math.toRadians(245)))
                 .build();
 
         //Wait during carousel
         double waitTime1 = 5;
         //Wait during outtake
-        double waitTime2 = 3;
+        double waitTime2 = 0.4;
         //Wait during lift
-        double waitTime3 = 0.6;
+        double waitTime3 = 0.5;
         ElapsedTime waitTimer = new ElapsedTime();
 
         // Second trajectory to depot
         // Ensure that we call trajectory1.end() as the start for this one
         Trajectory trajectory2 = drive.trajectoryBuilder(trajectory1.end())
-                .lineToLinearHeading(new Pose2d(-50, -50, Math.toRadians(120)))
+                .lineToLinearHeading(new Pose2d(-50, -45, Math.toRadians(180)))
                 .build();
 
         // Third trajectory into the warehouse
         TrajectorySequence trajectory3 = drive.trajectorySequenceBuilder(trajectory2.end())
-                .lineToLinearHeading(new Pose2d(-24, -69.2, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(10.3, -69.2, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(50, -69.2, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(-24, -71.2, Math.toRadians(173)))
+                .lineToLinearHeading(new Pose2d(10.3, -73.2, Math.toRadians(173)))
+                .lineToLinearHeading(new Pose2d(50, -73.2, Math.toRadians(173)))
                 .build();
 
 

@@ -19,7 +19,7 @@ public class TeleOpTest extends OpMode
     DcMotor BL;
     DcMotor IT;
 
-    DcMotor RL;
+    //DcMotor RL;
 
 
     //variable checking if the gate is closed.
@@ -46,7 +46,7 @@ public class TeleOpTest extends OpMode
 
         IT = hardwareMap.dcMotor.get("intake");
 
-        RL = hardwareMap.dcMotor.get("rightLift");
+        //RL = hardwareMap.dcMotor.get("rightLift");
 
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -58,9 +58,9 @@ public class TeleOpTest extends OpMode
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        RL.setDirection(DcMotorSimple.Direction.REVERSE);
-        RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //RL.setDirection(DcMotorSimple.Direction.REVERSE);
+        //RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //RL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         telemetry.addData("init ", "completed");
         telemetry.update();
@@ -258,7 +258,7 @@ public class TeleOpTest extends OpMode
         // Switch back to manual lift
         if (Math.abs(gamepad2.right_stick_y) > 0.1) manual = true;
 
-        telemetry.addData("R encoder", RL.getCurrentPosition());
+        //telemetry.addData("R encoder", RL.getCurrentPosition());
 
         telemetry.addData("right stick y", gamepad2.right_stick_y);
         telemetry.addData("encoder", manip.RL.getCurrentPosition());

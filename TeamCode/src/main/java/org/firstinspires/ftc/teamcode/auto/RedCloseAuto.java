@@ -41,29 +41,36 @@ public class RedCloseAuto extends LinearOpMode {
 
         //First trajectory to carousel
         Trajectory trajectory1 = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-59.75, -62.5, Math.toRadians(229)))
+                .lineToLinearHeading(new Pose2d(-61.5, -63.5, Math.toRadians(245)))
                 .build();
 
         //Wait during carousel
         double waitTime1 = 5;
         //Wait during outtake
-        double waitTime2 = 1;
+        double waitTime2 = 0.4;
+        //Wait to bring lift down
+        double waitTime3 = 0.3;
+        //Lift up
+        double waitTime4 = 2;
         ElapsedTime waitTimer = new ElapsedTime();
 
         // Second trajectory to depot
         // Ensure that we call trajectory1.end() as the start for this one
         Trajectory trajectory2 = drive.trajectoryBuilder(trajectory1.end())
-                .lineToLinearHeading(new Pose2d(-11.3, -36, Math.toRadians(98.5)))
+                .lineToLinearHeading(new Pose2d(-11.3, -46, Math.toRadians(98.5)))
                 .build();
 
         // Third trajectory into the warehouse
-        TrajectorySequence trajectory3 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(10.3, -67.2, Math.toRadians(10)))
-                .lineToLinearHeading(new Pose2d(50, -67.2, Math.toRadians(12)))
+        TrajectorySequence trajectory3 = drive.trajectorySequenceBuilder(trajectory2.end())
+                .lineToLinearHeading(new Pose2d(10.3, -73.2, Math.toRadians(173)))
+                .lineToLinearHeading(new Pose2d(50, -73.2, Math.toRadians(173)))
                 .build();
 
         // Start doing vision
         int pos = vuforia.capPositionReturn();
+        telemetry.addData("pos", pos);
+        telemetry.addData("encoder", manip.RL.getCurrentPosition());
+        telemetry.update();
 
         waitForStart();
 
@@ -107,15 +114,18 @@ public class RedCloseAuto extends LinearOpMode {
                     if (!drive.isBusy()) {
                         currentState = State.LIFT;
                         manip.automaticLift(pos);
+                        waitTimer.reset();
                     }
                     break;
                 case LIFT:
                     // Make sure the lift has reached target position
                     // by checking if it's still busy
                     // When reached, outtake block
-                    if (!manip.liftIsBusy()) {
+                    if (waitTimer.seconds() >= waitTime4) {
                         currentState = State.OUTTAKE;
+                        manip.intakeControl(1,0);
                         manip.intake(true);
+                        waitTimer.reset();
                     }
                     break;
                 case OUTTAKE:
@@ -124,14 +134,16 @@ public class RedCloseAuto extends LinearOpMode {
                     // When reached, outtake block
                     if (waitTimer.seconds() >= waitTime2) {
                         currentState = State.RETRACT;
+                        manip.intake(false);
                         manip.automaticLift(0);
+                        waitTimer.reset();
                     }
                     break;
                 case RETRACT:
                     // Make sure the lift has reached target position
                     // by checking if it's still busy
                     // When reached, outtake block
-                    if (!manip.liftIsBusy()) {
+                    if (waitTimer.seconds() >= waitTime3) {
                         currentState = State.TRAJECTORY_3;
                         drive.followTrajectorySequenceAsync(trajectory3);
                     }

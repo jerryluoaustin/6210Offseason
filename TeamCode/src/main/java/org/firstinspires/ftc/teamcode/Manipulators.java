@@ -20,12 +20,13 @@ public class Manipulators {
     // Highest encoder position
     private int highest = 0;
 
-    private final int highFront = 999;
-    private final int midFront = 607;
-    private final int lowFront = 293;
+    private final int highFront = 1652;
+    private final int midFront = 1100;
+    private final int lowFront = 456;
     private final int highRear = 3220;
     private final int midRear = 3648;
     private final int lowRear = 4000;
+    // Capstone -1967
 
     private int high = highFront;
     private int mid = midFront;
@@ -69,6 +70,7 @@ public class Manipulators {
 
         // Lift
         RL = robot.get(DcMotor.class, "rightLift");
+
         RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
