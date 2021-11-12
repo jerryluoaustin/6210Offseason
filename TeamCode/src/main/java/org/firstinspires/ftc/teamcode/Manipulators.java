@@ -7,13 +7,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Manipulators {
 
     private HardwareMap robot = null;
 
     //Lift
-    private DcMotor RL = null;
+    public DcMotor RL = null;
     // Lowest encoder position
     private int lowest = 0;
     // Highest encoder position
@@ -68,7 +69,6 @@ public class Manipulators {
 
         // Lift
         RL = robot.get(DcMotor.class, "rightLift");
-        RL.setDirection(DcMotorSimple.Direction.REVERSE);
         RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
@@ -137,6 +137,15 @@ public class Manipulators {
     public void stopLift() {
         RL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RL.setPower(0);
+    }
+
+    public void liftFromStart() {
+        double waitTime = 0.5;
+        ElapsedTime waitTimer = new ElapsedTime();
+        RL.setPower(0.5);
+        if (waitTimer.seconds() >= waitTime) {
+            RL.setPower(0);
+        }
     }
 
     public void redCarousel(){

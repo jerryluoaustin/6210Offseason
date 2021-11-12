@@ -19,6 +19,7 @@ public class Test2 extends LinearOpMode {
         TRAJECTORY_1,   // Go to carousel
         CAROUSEL,       // Spin carousel
         TRAJECTORY_2,   // Go to dump
+        LIFT,
         OUTTAKE,        // Outtake cargo
         TRAJECTORY_3,   // Go to warehouse
         IDLE            // Our bot will enter the IDLE state when done
@@ -45,6 +46,8 @@ public class Test2 extends LinearOpMode {
         double waitTime1 = 5;
         //Wait during outtake
         double waitTime2 = 3;
+        //Wait during lift
+        double waitTime3 = 0.6;
         ElapsedTime waitTimer = new ElapsedTime();
 
         // Second trajectory to depot
@@ -96,16 +99,28 @@ public class Test2 extends LinearOpMode {
                     telemetry.update();
                     if (waitTimer.seconds() >= waitTime1) {
                         currentState = State.TRAJECTORY_2;
+
                         drive.followTrajectoryAsync(trajectory2);
                         manip.carouselStop();
-                        waitTimer.reset();
                     }
                     break;
                 case TRAJECTORY_2:
                     // Check if the drive class is busy turning
                     // If not, move onto the next state, DROP, once finished
                     if (!drive.isBusy()) {
+                        currentState = State.LIFT;
+                        waitTimer.reset();
+
+                        manip.intakeControl(1,0);
+                        manip.manualLift(0.5);
+                    }
+                    break;
+                case LIFT:
+                    if (waitTimer.seconds() >= waitTime3) {
                         currentState = State.OUTTAKE;
+                        waitTimer.reset();
+
+                        manip.manualLift(0);
                         manip.intake(true);
                     }
                     break;

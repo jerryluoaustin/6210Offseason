@@ -124,7 +124,7 @@ public class TeleOpTest extends OpMode
         //manual lift
 
         if (Math.abs(gamepad2.right_stick_y) > 0.1) {
-            manip.manualLift(gamepad2.right_stick_y);
+            manip.manualLift(-gamepad2.right_stick_y);
         }
         else if (manual)
         {
@@ -257,6 +257,8 @@ public class TeleOpTest extends OpMode
 
         telemetry.addData("R encoder", RL.getCurrentPosition());
 
+        telemetry.addData("right stick y", gamepad2.right_stick_y);
+        telemetry.addData("encoder", manip.RL.getCurrentPosition());
         telemetry.update();
 
     }
