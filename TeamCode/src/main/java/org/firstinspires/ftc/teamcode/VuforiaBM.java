@@ -77,7 +77,7 @@ public class VuforiaBM {
         Bitmap bm = this.getBitmap();
 
         int p3 = blue(bm.getPixel(698, 600));
-        int p2 = blue(bm.getPixel(232, 600));
+        int p2 = blue(bm.getPixel(132, 600));
 
         //threshold values for capstone color
         if (p3 < 70) return 3;

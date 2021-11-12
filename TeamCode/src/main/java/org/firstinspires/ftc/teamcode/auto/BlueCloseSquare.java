@@ -6,14 +6,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.AutoBase;
 import org.firstinspires.ftc.teamcode.Manipulators;
 import org.firstinspires.ftc.teamcode.VuforiaBM;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "RedCloseSquare", group = "testTest")
-public class RedCloseSquare extends LinearOpMode {
+@Autonomous(name = "BlueCloseSquare", group = "testTest")
+public class BlueCloseSquare extends LinearOpMode {
 
     enum State {
         TRAJECTORY_1,   // Go to carousel
@@ -26,7 +25,7 @@ public class RedCloseSquare extends LinearOpMode {
     }
 
     State currentState = State.IDLE;
-    Pose2d startPose = new Pose2d(-24, -70, Math.toRadians(90));
+    Pose2d startPose = new Pose2d(-24, 70, Math.toRadians(270));
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -39,7 +38,7 @@ public class RedCloseSquare extends LinearOpMode {
 
         //First trajectory to carousel
         Trajectory trajectory1 = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-61.5, -63.5, Math.toRadians(245)))
+                .lineToLinearHeading(new Pose2d(-58, 62.5, Math.toRadians(131)))
                 .build();
 
         //Wait during carousel
@@ -53,16 +52,16 @@ public class RedCloseSquare extends LinearOpMode {
         // Second trajectory to depot
         // Ensure that we call trajectory1.end() as the start for this one
         Trajectory trajectory2 = drive.trajectoryBuilder(trajectory1.end())
-                .lineToLinearHeading(new Pose2d(-50, -45, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(-50, 45, Math.toRadians(180)))
                 .build();
+
 
         // Third trajectory into the warehouse
-        TrajectorySequence trajectory3 = drive.trajectorySequenceBuilder(trajectory2.end())
-                .lineToLinearHeading(new Pose2d(-24, -71.2, Math.toRadians(173)))
-                .lineToLinearHeading(new Pose2d(10.3, -73.2, Math.toRadians(173)))
-                .lineToLinearHeading(new Pose2d(50, -73.2, Math.toRadians(173)))
+        TrajectorySequence trajectory3 = drive.trajectorySequenceBuilder(trajectory1.end())
+                .lineToLinearHeading(new Pose2d(-24, 71.2, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(10.3, 75.2, Math.toRadians(195)))
+                .lineToLinearHeading(new Pose2d(50, 75.2, Math.toRadians(195)))
                 .build();
-
 
         // Start doing vision
         //int pos = vuforia.capPositionReturn();
@@ -89,7 +88,7 @@ public class RedCloseSquare extends LinearOpMode {
                     telemetry.update();
                     if (!drive.isBusy()) {
                         currentState = State.CAROUSEL;
-                        manip.redCarousel();
+                        manip.blueCarousel();
                         waitTimer.reset();
                     }
                     break;
@@ -99,7 +98,6 @@ public class RedCloseSquare extends LinearOpMode {
                     telemetry.update();
                     if (waitTimer.seconds() >= waitTime1) {
                         currentState = State.TRAJECTORY_2;
-
                         drive.followTrajectoryAsync(trajectory2);
                         manip.carouselStop();
                     }
@@ -142,7 +140,7 @@ public class RedCloseSquare extends LinearOpMode {
                     }
                     break;
                 case IDLE:
-                    telemetry.addData("IDLE", "here");
+                    telemetry.addLine("Finished");
                     telemetry.update();
                     // Do nothing in IDLE
                     // currentState does not change once in IDLE

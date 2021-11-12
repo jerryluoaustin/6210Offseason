@@ -36,29 +36,43 @@ public class RedCloseAuto extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Manipulators manip = new Manipulators(hardwareMap);
         VuforiaBM vuforia = new VuforiaBM(this);
+        // Start doing vision
+        int pos = vuforia.capPositionReturn();
 
         drive.setPoseEstimate(startPose);
 
         //First trajectory to carousel
         Trajectory trajectory1 = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-61.5, -63.5, Math.toRadians(245)))
+                .lineToLinearHeading(new Pose2d(-61.5, -63.5, Math.toRadians(248)))
                 .build();
 
         //Wait during carousel
         double waitTime1 = 5;
         //Wait during outtake
-        double waitTime2 = 0.4;
+        double waitTime2 = 0.3;
         //Wait to bring lift down
         double waitTime3 = 0.3;
         //Lift up
         double waitTime4 = 2;
         ElapsedTime waitTimer = new ElapsedTime();
 
+        Trajectory trajectory2;
         // Second trajectory to depot
         // Ensure that we call trajectory1.end() as the start for this one
-        Trajectory trajectory2 = drive.trajectoryBuilder(trajectory1.end())
-                .lineToLinearHeading(new Pose2d(-11.3, -46, Math.toRadians(98.5)))
-                .build();
+        if (pos == 1) {
+            trajectory2 = drive.trajectoryBuilder(trajectory1.end())
+                    .lineToLinearHeading(new Pose2d(-11.3, -56, Math.toRadians(98.5)))
+                    .build();
+        } else if (pos == 2) {
+            trajectory2 = drive.trajectoryBuilder(trajectory1.end())
+                    .lineToLinearHeading(new Pose2d(-11.3, -53, Math.toRadians(98.5)))
+                    .build();
+        } else {
+            trajectory2 = drive.trajectoryBuilder(trajectory1.end())
+                    .lineToLinearHeading(new Pose2d(-11.3, -49, Math.toRadians(98.5)))
+                    .build();
+        }
+
 
         // Third trajectory into the warehouse
         TrajectorySequence trajectory3 = drive.trajectorySequenceBuilder(trajectory2.end())
@@ -66,10 +80,9 @@ public class RedCloseAuto extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(50, -73.2, Math.toRadians(173)))
                 .build();
 
-        // Start doing vision
-        int pos = vuforia.capPositionReturn();
-        telemetry.addData("pos", pos);
-        telemetry.addData("encoder", manip.RL.getCurrentPosition());
+
+        telemetry.addLine("Init done");
+        telemetry.addData("Skystone position: 3 - top, 2 - mid, 1 - bottom", pos);
         telemetry.update();
 
         waitForStart();
@@ -134,7 +147,7 @@ public class RedCloseAuto extends LinearOpMode {
                     // When reached, outtake block
                     if (waitTimer.seconds() >= waitTime2) {
                         currentState = State.RETRACT;
-                        manip.intake(false);
+                        manip.intakeStop();
                         manip.automaticLift(0);
                         waitTimer.reset();
                     }

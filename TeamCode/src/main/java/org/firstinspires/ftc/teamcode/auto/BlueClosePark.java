@@ -21,7 +21,7 @@ public class BlueClosePark extends LinearOpMode {
         IDLE            // Our bot will enter the IDLE state when done
     }
 
-    RedClosePark.State currentState = RedClosePark.State.IDLE;
+    State currentState = State.IDLE;
     Pose2d startPose = new Pose2d(-24, 70, Math.toRadians(270));
 
     @Override
@@ -56,7 +56,7 @@ public class BlueClosePark extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        currentState = RedClosePark.State.TRAJECTORY_1;
+        currentState = State.TRAJECTORY_1;
         drive.followTrajectoryAsync(trajectory1);
 
         while (opModeIsActive() && !isStopRequested()) {
@@ -73,7 +73,7 @@ public class BlueClosePark extends LinearOpMode {
                     telemetry.addData("Trajectory 1", currentState);
                     telemetry.update();
                     if (!drive.isBusy()) {
-                        currentState = RedClosePark.State.CAROUSEL;
+                        currentState = State.CAROUSEL;
                         manip.blueCarousel();
                         waitTimer.reset();
                     }
@@ -83,7 +83,7 @@ public class BlueClosePark extends LinearOpMode {
                     telemetry.addData("Carousel", currentState);
                     telemetry.update();
                     if (waitTimer.seconds() >= waitTime1) {
-                        currentState = RedClosePark.State.TRAJECTORY_2;
+                        currentState = State.TRAJECTORY_2;
                         drive.followTrajectorySequenceAsync(trajectory2);
                         manip.carouselStop();
                     }
@@ -92,7 +92,7 @@ public class BlueClosePark extends LinearOpMode {
                     // Check if the drive class is busy turning
                     // If not, move onto the next state, DROP, once finished
                     if (!drive.isBusy()) {
-                        currentState = RedClosePark.State.IDLE;
+                        currentState = State.IDLE;
                         break;
                     }
                     break;

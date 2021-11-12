@@ -20,9 +20,9 @@ public class Manipulators {
     // Highest encoder position
     private int highest = 0;
 
-    private final int highFront = 1652;
-    private final int midFront = 1100;
-    private final int lowFront = 456;
+    private final int highFront = 1900;
+    private final int midFront = 1440;
+    private final int lowFront = 500;
     private final int highRear = 3220;
     private final int midRear = 3648;
     private final int lowRear = 4000;
@@ -185,8 +185,8 @@ public class Manipulators {
     }
 
     public void intake(boolean out) {
-        if (out) IT.setPower(1);
-        else IT.setPower(-1);
+        if (out) IT.setPower(0.5);
+        else IT.setPower(-0.5);
     }
 
     public void intakeStop() {
